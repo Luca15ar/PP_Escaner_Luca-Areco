@@ -44,7 +44,6 @@ namespace Entidades
         {
             StringBuilder texto = new StringBuilder();
 
-            texto.Append(base.ToString());
             texto.AppendLine($"Excepción en el método {this.NombreMetodo} de la clase {this.NombreClase}.");
             texto.AppendLine("Algo salió mal, revisa los detalles.");
             texto.AppendLine($"Detalles: {this.InnerException}");

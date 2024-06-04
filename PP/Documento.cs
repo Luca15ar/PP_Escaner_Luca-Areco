@@ -74,11 +74,13 @@ namespace Entidades
         {
             bool retorno = true;
 
-            this.Estado++;
-
             if (this.Estado == Paso.Terminado)
             {
                 retorno = false;
+            }
+            else 
+            {
+                this.Estado++;
             }
 
             return retorno;

@@ -91,12 +91,17 @@ namespace Entidades
 
             foreach (Documento doc in e.listaDocumentos)
             {
-                if (doc == d)
+                if ((doc is Libro libro1 && d is Libro libro2 && libro1 == libro2) ||
+                    (doc is Mapa mapa1 && d is Mapa mapa2 && mapa1 == mapa2))
                 {
                     retorno = true;
                 }
+                else if ((doc is Libro && !(d is Libro)) || (doc is Mapa && !(d is Mapa)))
+                {
+                    throw new TipoIncorrectoException("Este escáner no acepta este tipo de documento", "Escaner.cs", "Validación ==");
+                }
             }
-
+            
             return retorno;
         }
 
@@ -109,11 +114,18 @@ namespace Entidades
         {
             bool retorno = false;
 
-            if (e != d && d.Estado == Documento.Paso.Inicio)
+            try
             {
-                d.AvanzarEstado();
-                e.listaDocumentos.Add(d);
-                retorno = true;
+                if (e != d && d.Estado == Documento.Paso.Inicio) 
+                {
+                    e.CambiarEstadoDocumento(d);
+                    e.listaDocumentos.Add(d);
+                    retorno = true;
+                }
+            }
+            catch (TipoIncorrectoException ex)
+            {
+                throw new TipoIncorrectoException("El documento no se pudo añadir a la lista", "Escaner.cs", "Validación +", ex);
             }
 
             return retorno;
